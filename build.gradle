@@ -1,0 +1,182 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.1"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+ext.versions = [
+        "compileSdk": 30,
+        "minSdk": 21,
+        "targetSdk": 30,
+        "buildTools": "30.0.2",
+        "versionCode": 1,
+        "versionName": "ABSeller:1.0",
+        "cardView": "1.0.0",
+        "materialDesign": [
+                "alpha": "1.2.0-alpha06",
+                "release": "1.0.0",
+        ],
+        "sdp": "1.0.6",
+        "androidx": [
+                "legacy": "1.0.0",
+                "appcompat": "1.1.0",
+        ],
+        "fragment": "1.1.0-rc04",
+        "multidex": "2.0.1",
+        "room": "2.2.5",
+        "picasso": "2.5.2",
+        "glide": "4.11.0",
+        "lifeCycle": "2.2.0",
+        "photoView": "2.3.0",
+        "imageCropper": "2.8.+",
+        "aws": "2.19.0",
+        "dagger": "2.29.1",
+        "compressor": "3.0.0",
+        "coroutine": "1.2.1",
+        "retrofit2": [
+                "retrofit": "2.9.0",
+                "gson": "2.2.0",
+        ],
+        "okhttp": "4.9.0",
+        "firebase": "26.1.0",
+        "gms": [
+                "auth": "19.0.0",
+        ],
+        "recyclerview": [
+                "release": "1.1.0",
+                "selection": "1.1.0-rc01",
+        ],
+        "gifImageView": "1.2.+",
+        "countryCodePicker": "2.4.2",
+        "mpChart": "v3.1.0",
+        "swipeRefreshLayout": "1.0.0",
+        "circleImageView": "3.1.0",
+        "emoji": "0.7.0",
+        "lottie": "3.6.0",
+        "collapsibleCalendar": "v1.0.3",
+]
+
+ext.dependency = [
+        "cardView": "androidx.cardview:cardview:${versions.cardView}",
+
+        "materialDesign": [
+                "alpha": "com.google.android.material:material:${versions.materialDesign.alpha}",
+                "release": "com.google.android.material:material:${versions.materialDesign.release}"
+        ],
+
+        "sdp": "com.intuit.sdp:sdp-android:${versions.sdp}",
+
+        "androidx": [
+                "legacy": "androidx.legacy:legacy-support-v4:${versions.androidx.legacy}",
+                "appcompat": "androidx.appcompat:appcompat:${versions.androidx.appcompat}"
+        ],
+
+        "fragment": "androidx.fragment:fragment:${versions.fragment}",
+
+        "multidex": "androidx.multidex:multidex:${versions.multidex}",
+
+        "recyclerview": [
+                "release": "androidx.recyclerview:recyclerview:${versions.recyclerview.release}",
+                "selection": "androidx.recyclerview:recyclerview-selection:${versions.recyclerview.selection}",
+        ],
+
+        "room": [
+                "runtime": "androidx.room:room-runtime:${versions.room}",
+                "compiler": "androidx.room:room-compiler:${versions.room}",
+                "ktx": "androidx.room:room-ktx:${versions.room}"
+        ],
+
+        "picasso": "com.squareup.picasso:picasso:${versions.picasso}",
+
+        "glide": [
+                "release": "com.github.bumptech.glide:glide:${versions.glide}",
+                "compiler": "com.github.bumptech.glide:compiler:${versions.glide}",
+        ],
+
+        "photoView": "com.github.chrisbanes:PhotoView:${versions.photoView}",
+
+        "imageCropper": "com.theartofdev.edmodo:android-image-cropper:${versions.imageCropper}",
+
+        "gifImageView": "pl.droidsonroids.gif:android-gif-drawable:${versions.gifImageView}",
+
+        "circleImageView": "de.hdodenhof:circleimageview:${versions.circleImageView}",
+
+        "compressor": "id.zelory:compressor:${versions.compressor}",
+
+        "lifeCycle": [
+                "viewModel": "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifeCycle}",
+                "liveData": "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifeCycle}"
+        ],
+
+        "aws": [
+                "s3": "com.amazonaws:aws-android-sdk-s3:${versions.aws}",
+                "core": "com.amazonaws:aws-android-sdk-core:${versions.aws}",
+                "ddb": "com.amazonaws:aws-android-sdk-ddb:${versions.aws}",
+        ],
+
+        "dagger": [
+                "api": "com.google.dagger:dagger:${versions.dagger}",
+                "compiler": "com.google.dagger:dagger-compiler:${versions.dagger}"
+        ],
+
+        "coroutine": [
+                "core": "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutine}",
+                "android": "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutine}",
+        ],
+
+        "retrofit2": [
+                "retrofit": "com.squareup.retrofit2:retrofit:${versions.retrofit2.retrofit}",
+                "gson": "com.squareup.retrofit2:converter-gson:${versions.retrofit2.gson}",
+        ],
+
+        "okhttp": "com.squareup.okhttp3:okhttp:${versions.okhttp}",
+
+        "firebase": [
+                "bom": "com.google.firebase:firebase-bom:${versions.firebase}",
+                "analytics": "com.google.firebase:firebase-analytics",
+                "firestore": "com.google.firebase:firebase-firestore",
+                "storage": "com.google.firebase:firebase-storage",
+                "messaging": "com.google.firebase:firebase-messaging",
+                "database": "com.google.firebase:firebase-database",
+                "auth": "com.google.firebase:firebase-auth",
+                "crashlytics": "com.google.firebase:firebase-crashlytics",
+                "inAppMessaging": "com.google.firebase:firebase-inappmessaging-display",
+        ],
+
+        "gms": [
+                "auth": "com.google.android.gms:play-services-auth:${versions.gms.auth}",
+        ],
+
+        "countryCodePicker": "com.hbb20:ccp:${versions.countryCodePicker}",
+
+        "mpChart": "com.github.PhilJay:MPAndroidChart:${versions.mpChart}",
+
+        "swipeRefreshLayout": "androidx.swiperefreshlayout:swiperefreshlayout:${versions.swipeRefreshLayout}",
+
+        "emoji": [
+                "main": "com.vanniktech:emoji-material:${versions.emoji}",
+                "provider": "com.vanniktech:emoji-google:${versions.emoji}",
+        ],
+        "lottie": "com.airbnb.android:lottie:${versions.lottie}",
+
+        "collapsibleCalendar": "com.github.shrikanth7698:Collapsible-Calendar-View-Android:${versions.collapsibleCalendar}"
+]
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
