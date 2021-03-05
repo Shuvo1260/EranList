@@ -8,4 +8,6 @@ public class Config {
 
     // Intent data
     public static String ITEM_DATA = "itemData";
+
+    public static int KEYBOARD_DELAY_TIME = 5000;
 }
