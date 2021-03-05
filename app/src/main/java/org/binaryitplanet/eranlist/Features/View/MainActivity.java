@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Log.d(TAG, "onQueryTextChange: " + newText);
                 adapter.getFilter().filter(newText);
                 setKeyBoardHideThread();
+                setRefreshThread();
                 return false;
             }
         });
