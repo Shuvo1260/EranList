@@ -8,12 +8,14 @@ import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Handler handler;
     private Runnable runnable;
 
+    private Handler searchHanlder;
+    private Runnable searchRunnable;
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +61,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        runnable = () -> {
-            View view = this.getCurrentFocus();
-            if (view != null) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            }
-        };
+        runnable = () -> closeKeyboard();
 
         handler = new Handler();
+
+        searchHanlder = new Handler();
+
+        searchRunnable = () -> refreshList();
 
         itemDataList = new ArrayList<>();
 
@@ -76,6 +79,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setDummyData();
 
         setupList();
+    }
+
+    private void refreshList() {
+        searchView.setIconified(true);
+    }
+
+    private void closeKeyboard() {
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void settingNavigation() {
@@ -90,23 +106,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.list.setAdapter(adapter);
         binding.list.setLayoutManager(new LinearLayoutManager(this));
         binding.list.setItemViewCacheSize(1000);
+        binding.list.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                handler.removeCallbacks(runnable);
+                closeKeyboard();
+            }
+        });
     }
 
     private void setDummyData() {
         itemDataList.add(new ItemData(
-                1, 1, "10:15", 10, "12/02/2021", "Euro"
+                1, 1, "Eran", 10, "12/02/2021", "Euro"
         ));
         itemDataList.add(new ItemData(
-                1, 2, "10:30", 80, "12/02/2021", "Euro"
+                1, 2, "David", 80, "12/02/2021", "Euro"
         ));
         itemDataList.add(new ItemData(
-                2, 1, "10:45", 45, "12/02/2021", "Euro"
+                2, 1, "Hasibul", 45, "12/02/2021", "Euro"
         ));
         itemDataList.add(new ItemData(
-                2, 3, "11:15", 65, "12/02/2021", "Euro"
+                2, 3, "LED", 65, "12/02/2021", "Euro"
         ));
         itemDataList.add(new ItemData(
-                4, 3, "10:15", 10, "12/02/2021", "Euro"
+                4, 3, "Stuff", 10, "12/02/2021", "Euro"
         ));
     }
 
@@ -134,6 +158,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchEditText.setHintTextColor(getResources().getColor(R.color.white));
         searchEditText.setHint("Search...");
 
+        searchEditText.setOnFocusChangeListener((v, hasFocus) -> {
+            Log.d(TAG, "setSearchView: " + hasFocus);
+            setKeyBoardHideThread();
+            setRefreshThread();
+        });
+
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         // Filtering list based on user search
@@ -145,11 +175,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Log.d(TAG, "onQueryTextChange: " + newText);
                 adapter.getFilter().filter(newText);
                 setKeyBoardHideThread();
                 return false;
             }
         });
+    }
+
+    private void setRefreshThread() {
+        searchHanlder.removeCallbacks(searchRunnable);
+        searchHanlder.postDelayed(searchRunnable, Config.REFRESH_DELAY_TIME);
     }
 
     private void setKeyBoardHideThread() {

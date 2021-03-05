@@ -102,14 +102,13 @@ public class ListItemAdapter extends RecyclerView.Adapter<ListItemAdapter.ViewHo
 
             // If the text is null it will show full list
             if(constraint.toString().isEmpty()){
-                Log.d(TAG, "performFiltering: ");
                 filterList.addAll(allItemDataList);
-                Log.d(TAG, "performFiltering: " + allItemDataList);
             } else {
                 // Finding filtered list based on user search
                 for(ItemData itemData : allItemDataList){
                     if(String.valueOf(itemData.getNum1()).toLowerCase().contains(constraint.toString().toLowerCase()) ||
-                            String.valueOf(itemData.getNum2()).toLowerCase().contains(constraint.toString().toLowerCase())){
+                            String.valueOf(itemData.getNum2()).toLowerCase().contains(constraint.toString().toLowerCase()) ||
+                            itemData.getString().toLowerCase().contains(constraint.toString().toLowerCase())){
                         filterList.add(itemData);
                     }
                 }

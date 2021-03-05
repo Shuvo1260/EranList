@@ -10,4 +10,6 @@ public class Config {
     public static String ITEM_DATA = "itemData";
 
     public static int KEYBOARD_DELAY_TIME = 5000;
+
+    public static int REFRESH_DELAY_TIME = 10000;
 }
